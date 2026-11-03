@@ -5,6 +5,7 @@
     python app.py           # 然后浏览器打开 http://127.0.0.1:8050
 """
 
+import functools
 import urllib.request
 from pathlib import Path
 
@@ -46,6 +47,7 @@ def ensure_stations() -> Path:
     return path
 
 
+@functools.lru_cache(maxsize=4)
 def load_trips(month: str) -> pd.DataFrame:
     df = pd.read_csv(ensure_data(month))
     df = df.rename(

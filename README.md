@@ -52,7 +52,9 @@ python scripts/analyze_bike_trips.py 2024-07    # 换月份
 ├── outputs/              # 生成的图表与看板截图
 ├── app.py                # Dash 交互式看板
 ├── scripts/
-│   └── analyze_bike_trips.py   # 命令行静态分析
+│   ├── analyze_bike_trips.py        # 命令行静态分析（出 PNG）
+│   ├── ml_librarian_xmtc.py         # 案例：问图书馆员语料 XMTC 多标签分类
+│   └── ml_accident_severity.py      # 案例：交通事故严重度分类
 └── requirements.txt
 ```
 
@@ -61,3 +63,14 @@ python scripts/analyze_bike_trips.py 2024-07    # 换月份
 - 数据字段名是英文，站点名是芬兰语，正适合讲"非中文/非英文数据也要能上手"。
 - 原始 CSV 带 UTF-8 BOM，pandas 直接 `read_csv` 即可；个别行时间格式不完整（只有日期），脚本用 `ISO8601` 宽容解析后剔除——这是真实开放数据的典型脏点，课堂上值得展开讲。
 - HSL 同时提供站点经纬度数据集（`Helsingin Seudun Liikenteen (HSL) kaupunkipyöräasemat`），想加地图可视化时按需下载。
+
+## 更多 avoindata 机器学习数据源（待实现）
+
+| 数据集 | 任务 | 特点 |
+| --- | --- | --- |
+| **Kysy kirjastonhoitajalta**（问图书馆员 TF-IDF） | XMTC 多标签文本分类 | 官方为 ML 准备的 LIBSVM 稀疏矩阵，3.1 万样本、3150 标签 |
+| **Liikenneonnettomuudet Helsingissä**（交通事故） | 二分类（严重/轻微） | 5.4 万条、类别不均衡 3.7:1，含坐标可做空间分析 |
+| **Helsingin pyöräilijämäärät**（骑行计数） | 时间序列预测 | 2014 年起 16 个计数点小时级数据，XLSX |
+| **IoT-meludataa Helsingistä**（城市噪音） | 异常检测 / 回归 | CESVA 传感器分钟级均值，Forum Virium Helsinki |
+| **Pysäköintivirheet**（违停记录） | 聚类 / 热点分析 | 2014 年起逐月记录、含地址，年度 CSV 文件 |
+| **Helsingin tapahtumarajapinta**（活动 API） | 文本分类 / 信息抽取 | Open311 式 JSON API，芬兰语自由文本 |
