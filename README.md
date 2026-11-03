@@ -14,15 +14,23 @@
 ## 快速开始
 
 ```bash
-pip install pandas matplotlib
+pip install -r requirements.txt
+
+# 交互式看板（推荐演示用）
+python app.py            # 浏览器打开 http://127.0.0.1:8050
+
+# 或命令行静态分析（出四张 PNG）
 python scripts/analyze_bike_trips.py            # 自动下载 2024-06 数据并出图
-python scripts/analyze_bike_trips.py 2024-07    # 换一个月
+python scripts/analyze_bike_trips.py 2024-07    # 换月份
 ```
 
-输出四张图到 `outputs/`：出发时刻分布（工作日 vs 周末）、行程时长直方图、借还总次数 Top15 站点、逐日行程数；终端打印描述统计、Top10 站点与 Top10 OD 对。
+## 交互式看板
+
+![dashboard](outputs/dashboard.png)
+
+功能：月份切换（自动下载该月 CSV）、站点筛选（借/还任意端匹配）、Top N 滑杆；四张 KPI 卡 + 五张联动图表——站点借还量 OpenStreetMap 气泡图、工作日/周末出发时刻曲线、时长直方图、Top N 站点条形图、逐日行程曲线。依赖 `dash` + `plotly`。
 
 ## 2024 年 6 月实测结果摘要
-
 - 清洗后 455,496 条有效行程（剔除 13,636 条异常：非正距离/时长、超 30 km、超 3 小时疑似忘还车，以及时间格式不完整的记录）
 - 单次距离中位数 2.14 km、均值 2.78 km；时长中位数 11.8 min、均值 16.3 min——典型的右偏分布，中位数比均值更能代表"一次典型骑行"
 - 借还同站仅占 4.3%，说明共享单车主要用于"点对点通勤"，而非休闲绕圈
@@ -41,9 +49,10 @@ python scripts/analyze_bike_trips.py 2024-07    # 换一个月
 
 ```text
 ├── data/                 # 原始 CSV（首次运行自动下载，.gitignore 排除）
-├── outputs/              # 生成的图表
+├── outputs/              # 生成的图表与看板截图
+├── app.py                # Dash 交互式看板
 ├── scripts/
-│   └── analyze_bike_trips.py
+│   └── analyze_bike_trips.py   # 命令行静态分析
 └── requirements.txt
 ```
 
