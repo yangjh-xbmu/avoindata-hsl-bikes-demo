@@ -54,7 +54,8 @@ python scripts/analyze_bike_trips.py 2024-07    # 换月份
 ├── scripts/
 │   ├── analyze_bike_trips.py        # 命令行静态分析（出 PNG）
 │   ├── ml_librarian_xmtc.py         # 案例：问图书馆员语料 XMTC 多标签分类
-│   └── ml_accident_severity.py      # 案例：交通事故严重度分类
+│   ├── ml_accident_severity.py      # 案例：交通事故严重度分类
+│   └── ml_toutiao_chinese.py        # 中文：今日头条标题多标签分类 + Dash 看板
 └── requirements.txt
 ```
 
@@ -74,3 +75,7 @@ python scripts/analyze_bike_trips.py 2024-07    # 换月份
 | **IoT-meludataa Helsingistä**（城市噪音） | 异常检测 / 回归 | CESVA 传感器分钟级均值，Forum Virium Helsinki |
 | **Pysäköintivirheet**（违停记录） | 聚类 / 热点分析 | 2014 年起逐月记录、含地址，年度 CSV 文件 |
 | **Helsingin tapahtumarajapinta**（活动 API） | 文本分类 / 信息抽取 | Open311 式 JSON API，芬兰语自由文本 |
+
+## 中文新闻标题多标签分类（演示扩展）
+
+`scripts/ml_toutiao_chinese.py`：用今日头条中文标题分类数据集（38.2 万条、15 类，GitHub 镜像）做中文化多标签演示——jieba 分词 → TF-IDF → OneVsRest + LogisticRegression。通过类别质心相似度补伪多标签，模拟"一稿多栏目"。precision@1 ≈ 0.974、precision@3 ≈ 0.828。`python scripts/ml_toutiao_chinese.py` 启动 Dash 看板（`http://127.0.0.1:8052`）：输入任意中文标题实时返回 Top8 标签概率条。
